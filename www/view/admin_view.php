@@ -62,9 +62,9 @@
         <tbody>
           <?php foreach($items as $item){ ?>
           <tr class="<?php print(is_open($item) ? '' : 'close_item'); ?>">
-            <td><img src="<?php print(IMAGE_PATH . $item['image']);?>" class="item_image"></td>
-            <td><?php print($item['name']); ?></td>
-            <td><?php print(number_format($item['price'])); ?>円</td>
+            <td><img src="<?php h(print(IMAGE_PATH . $item['image']));?>" class="item_image"></td>
+            <td><?php h(print($item['name'])); ?></td>
+            <td><?php h(print(number_format($item['price']))); ?>円</td>
             <td>
               <form method="post" action="admin_change_stock.php">
                 <div class="form-group">
@@ -73,7 +73,7 @@
                   個
                 </div>
                 <input type="submit" value="変更" class="btn btn-secondary">
-                <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
+                <input type="hidden" name="item_id" value="<?php h(print($item['item_id'])); ?>">
               </form>
             </td>
             <td>
@@ -86,12 +86,12 @@
                   <input type="submit" value="非公開 → 公開" class="btn btn-secondary">
                   <input type="hidden" name="changes_to" value="open">
                 <?php } ?>
-                <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
+                <input type="hidden" name="item_id" value="<?php h(print($item['item_id'])); ?>">
               </form>
 
               <form method="post" action="admin_delete_item.php">
                 <input type="submit" value="削除" class="btn btn-danger delete">
-                <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
+                <input type="hidden" name="item_id" value="<?php h(print($item['item_id'])); ?>">
               </form>
 
             </td>

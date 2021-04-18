@@ -20,5 +20,5 @@
       </ul>
     </div>
   </nav>
-  <p>ようこそ、<?php print($user['name']); ?>さん。</p>
+  <p>ようこそ、<?php h(print($user['name'])); ?>さん。</p>
 </header>
