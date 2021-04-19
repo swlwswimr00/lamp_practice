@@ -11,6 +11,7 @@ if(is_logined() === true){
 
 $name = get_post('name');
 $password = get_post('password');
+//確認用パスワードの取得
 $password_confirmation = get_post('password_confirmation');
 
 $db = get_db_connect();

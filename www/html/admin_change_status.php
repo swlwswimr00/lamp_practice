@@ -19,6 +19,7 @@ if(is_admin($user) === false){
 }
 
 $item_id = get_post('item_id');
+//公開ステータス変更情報取得
 $changes_to = get_post('changes_to');
 
 if($changes_to === 'open'){
