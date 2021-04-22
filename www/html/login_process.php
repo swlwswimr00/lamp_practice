@@ -9,11 +9,14 @@ if(is_logined() === true){
   redirect_to(HOME_URL);
 }
 
-$name = get_post('name');
-$password = get_post('password');
+$token = get_post('csrf_token');
+
+if(is_valid_csrf_token($token) === true){
+  $name = get_post('name');
+  $password = get_post('password');
+}
 
 $db = get_db_connect();
-
 
 $user = login_as($db, $name, $password);
 if( $user === false){

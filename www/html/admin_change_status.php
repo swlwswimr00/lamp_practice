@@ -18,9 +18,13 @@ if(is_admin($user) === false){
   redirect_to(LOGIN_URL);
 }
 
-$item_id = get_post('item_id');
-//公開ステータス変更情報取得
-$changes_to = get_post('changes_to');
+$token = get_post('csrf_token');
+
+if(is_valid_csrf_token($token) === true){
+  $item_id = get_post('item_id');
+  //公開ステータス変更情報取得
+  $changes_to = get_post('changes_to');
+}
 
 if($changes_to === 'open'){
   update_item_status($db, $item_id, ITEM_STATUS_OPEN);

@@ -9,9 +9,13 @@ if(is_logined() === true){
   redirect_to(HOME_URL);
 }
 
-$name = get_post('name');
-$password = get_post('password');
-$hash = password_hash($password,PASSWORD_DEFAULT);
+$token = get_post('csrf_token');
+
+if(is_valid_csrf_token($token)){
+  $name = get_post('name');
+  $password = get_post('password');
+}
+
 //確認用パスワードの取得
 $password_confirmation = get_post('password_confirmation');
 
