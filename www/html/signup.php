@@ -10,5 +10,3 @@ if(is_logined() === true){
 
 include_once VIEW_PATH . 'signup_view.php';
 
-
-
