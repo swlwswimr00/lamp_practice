@@ -18,7 +18,11 @@ if(is_admin($user) === false){
   redirect_to(LOGIN_URL);
 }
 
-$item_id = get_post('item_id');
+$token = get_post('csrf_token');
+
+if(is_valid_csrf_token($token)){
+  $item_id = get_post('item_id');
+}
 
 
 if(destroy_item($db, $item_id) === true){

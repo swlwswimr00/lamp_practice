@@ -17,9 +17,12 @@ $user = get_login_user($db);
 if(is_admin($user) === false){
   redirect_to(LOGIN_URL);
 }
+$token = get_post('csrf_token');
 
-$item_id = get_post('item_id');
-$stock = get_post('stock');
+if(is_valid_csrf_token($token) === true){
+  $item_id = get_post('item_id');
+  $stock = get_post('stock');
+} 
 
 if(update_item_stock($db, $item_id, $stock)){
   set_message('在庫数を変更しました。');
