@@ -20,7 +20,7 @@ if(is_admin($user) === false){
 
 $token = get_post('csrf_token');
 
-if(is_valid_csrf_token($token) === true){
+if(is_valid_csrf_token($token) !== false){
   $name = get_post('name');
   $price = get_post('price');
   $status = get_post('status');
