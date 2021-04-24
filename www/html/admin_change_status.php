@@ -20,7 +20,9 @@ if(is_admin($user) === false){
 
 $token = get_post('csrf_token');
 
+
 if(is_valid_csrf_token($token) !== false){
+
   $item_id = get_post('item_id');
   //公開ステータス変更情報取得
   $changes_to = get_post('changes_to');

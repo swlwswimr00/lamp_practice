@@ -31,6 +31,7 @@
                     <input type="submit" value="カートに追加" class="btn btn-primary btn-block">
                     <input type="hidden" name="item_id" value="<?php h(print($item['item_id'])); ?>">
                     <input type="hidden" name ="csrf_token" value = <?php echo $token; ?>>
+
                   </form>
                 <?php } else { ?>
                   <p class="text-danger">現在売り切れです。</p>

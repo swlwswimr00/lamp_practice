@@ -19,7 +19,9 @@ if(is_admin($user) === false){
 }
 $token = get_post('csrf_token');
 
+
 if(is_valid_csrf_token($token) !== false){
+
   $item_id = get_post('item_id');
   $stock = get_post('stock');
 } 
