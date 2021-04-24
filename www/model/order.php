@@ -7,7 +7,7 @@ function regist_orders($db,$user_id,$cart){
   try{
     insert_orders($db,$user_id);
     $order_id = get_order_id($db);
-    insert_order_details($db,$order_id ,$cart['item_id'] ,$cart['price'], $cart['amount']);
+    insert_order_details($db,$order_id['last_insert_id()'] ,$cart['item_id'] ,$cart['price'], $cart['amount']);
     $db -> commit();
   }catch(PDOException $e){
     $db -> rollback();
@@ -19,7 +19,7 @@ function insert_orders($db, $user_id){
   $sql = "
     INSERT INTO
       orders(
-        user_id,
+        user_id
       )
     VALUES(?)
   ";
@@ -38,13 +38,14 @@ function get_order_id($db){
   return fetch_query($db, $sql);
 }
 
-function insert_order_details($db,$order_id ,$item_id ,$price,$quantity){
+function insert_order_details($db,$order_id ,$item_id ,$price, $quantity){
   $sql = "
-    INSERT INTO(
+    INSERT INTO
+      order_details(
       order_id,
       item_id,
       price,
-      quantity,
+      quantity
       )
     VALUES(?,?,?,?)
   ";
@@ -55,12 +56,12 @@ function insert_order_details($db,$order_id ,$item_id ,$price,$quantity){
 function get_user_order_details($db, $user_id){
   $sql = "
     SELECT
-      orders.order_id
-      orders.user_id
-      orders.created
-      order_details.item_id
-      order_details.price
-      order_details.quantity
+      orders.order_id,
+      orders.user_id,
+      orders.created,
+      order_details.item_id,
+      order_details.price,
+      order_details.quantity,
       items.item_name
     FROM
       orders
