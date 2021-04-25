@@ -1,6 +1,7 @@
 <?php 
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
+require_once MODEL_PATH . 'order.php';
 
 function get_user_carts($db, $user_id){
   $sql = "
@@ -23,7 +24,7 @@ function get_user_carts($db, $user_id){
     WHERE
       carts.user_id = ?
   ";
-  return fetch_all_query($db, $sql,$params = array($user_id));
+  return fetch_all_query($db, $sql, array($user_id));
 }
 
 function get_user_cart($db, $user_id, $item_id){
@@ -50,19 +51,19 @@ function get_user_cart($db, $user_id, $item_id){
       items.item_id = ?
   ";
 
-  return fetch_query($db, $sql, $params = array($user_id, $item_id));
+  return fetch_query($db, $sql, array($user_id, $item_id));
 
 }
 
 function add_cart($db, $user_id, $item_id ) {
   $cart = get_user_cart($db, $user_id, $item_id);
   if($cart === false){
-    return insert_cart($db, $user_id, $item_id);
+    return insert_cart($db, $item_id, $user_id);
   }
-  return update_cart_amount($db, $cart['cart_id'], $cart['amount'] + 1);
+  return update_cart_amount($db, $cart['amount'] + 1, $cart['cart_id']);
 }
 
-function insert_cart($db, $user_id, $item_id, $amount = 1){
+function insert_cart($db, $item_id, $user_id, $amount = 1){
   $sql = "
     INSERT INTO
       carts(
@@ -73,10 +74,10 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
     VALUES(?, ?, ?)
   ";
 
-  return execute_query($db, $sql, $params = array($user_id, $item_id, $amount));
+  return execute_query($db, $sql, array($item_id, $user_id, $amount));
 }
 
-function update_cart_amount($db, $cart_id, $amount){
+function update_cart_amount($db, $amount, $cart_id){
   $sql = "
     UPDATE
       carts
@@ -86,7 +87,7 @@ function update_cart_amount($db, $cart_id, $amount){
       cart_id = ?
     LIMIT 1
   ";
-  return execute_query($db, $sql, $params = array($cart_id, $amount) );
+  return execute_query($db, $sql, array($amount, $cart_id) );
 }
 
 function delete_cart($db, $cart_id){
@@ -98,10 +99,10 @@ function delete_cart($db, $cart_id){
     LIMIT 1
   ";
 
-  return execute_query($db, $sql, $params = array($cart_id));
+  return execute_query($db, $sql, array($cart_id));
 }
 
-function purchase_carts($db, $carts){
+function purchase_carts($db, $carts, $user_id){
   if(validate_cart_purchase($carts) === false){
     return false;
   }
@@ -114,6 +115,8 @@ function purchase_carts($db, $carts){
       set_error($cart['name'] . 'の購入に失敗しました。');
     }
   }
+
+  regist_orders($db, $user_id, $carts);
   
   delete_user_carts($db, $carts[0]['user_id']);
 }
@@ -126,7 +129,7 @@ function delete_user_carts($db, $user_id){
       user_id = ?
   ";
 
-  execute_query($db, $sql, $params = array($user_id));
+  execute_query($db, $sql, array($user_id));
 }
 
 
