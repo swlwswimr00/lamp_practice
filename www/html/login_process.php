@@ -11,7 +11,9 @@ if(is_logined() === true){
 
 $token = get_post('csrf_token');
 
+
 if(is_valid_csrf_token($token) !== false){
+
   $name = get_post('name');
   $password = get_post('password');
 }
