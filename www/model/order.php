@@ -82,7 +82,30 @@ function get_user_order_details($db, $user_id){
   return fetch_all_query($db, $sql,array($user_id));
 }
 
+function get_all_order_details($db, $user_id){
+  $sql = "
+    SELECT
+      orders.order_id,
+      orders.user_id,
+      orders.created,
+      order_details.item_id,
+      order_details.price,
+      order_details.quantity,
+      items.item_name
+    FROM
+      orders
+    JOIN
+      order_details
+    ON
+      orders.order_id = order_details.order_id 
+    JOIN
+      items
+    ON
+      order_details.item_id = items.item_id
+  ";
 
+  return fetch_all_query($db, $sql);
+}
 
 
 ?>
