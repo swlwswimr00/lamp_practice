@@ -33,6 +33,7 @@ function fetch_all_query($db, $sql, $params = array()){
     $statement->execute($params);
     return $statement->fetchAll();
   }catch(PDOException $e){
+    echo $e;
     set_error('データ取得に失敗しました。');
   }
   return false;

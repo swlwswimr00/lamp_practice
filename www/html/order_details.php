@@ -14,7 +14,8 @@ if(is_logined() === false){
 
 $db = get_db_connect();
 $user = get_login_user($db);
+$order_id = get_get('order_id');
 
-$orders = get_user_orders($db, $user['user_id']);
+$order_details = get_user_order_details($db, $user['user_id'],$order_id);
 
-include_once '../view/order_view.php';
+include_once '../view/order_details_view.php';

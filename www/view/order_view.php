@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <?php include VIEW_PATH . 'templates/head.php'; ?>
-  <title>ご購入ありがとうございました！</title>
+  <title>購入履歴</title>
   <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'admin.css'); ?>">
 </head>
 <body>
@@ -25,7 +25,12 @@
         <td><?php echo h($order['order_id']); ?></td>
         <td><?php echo h($order['created']); ?></td>
         <td><?php ?>円</td>
-        <td><a href = # <?php ?>>購入明細画面へ</a></td>
+        <td>
+          <form action = <?php print(ORDER_DETAILS_URL);?> method = "get">
+            <input type="hidden" name = "order_id"  value = <?php echo h($order['order_id']); ?>> 
+            <input type="submit" value = "購入明細へ">
+          </form>
+        </td>
       </tr>
       <?php }?>
     </table>

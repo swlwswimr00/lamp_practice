@@ -69,11 +69,9 @@ function get_user_orders($db, $user_id){
   return fetch_all_query($db, $sql,array($user_id));
 }
 
-function get_user_order_details($db, $user_id){
+function get_user_order_details($db, $user_id,$order_id){
   $sql = "
     SELECT
-      orders.order_id,
-      orders.user_id,
       orders.created,
       order_details.item_id,
       order_details.price,
@@ -90,10 +88,11 @@ function get_user_order_details($db, $user_id){
     ON
       order_details.item_id = items.item_id
     WHERE
-      orders.user_id = ?
+      orders.user_id = ? AND
+      orders.order_id = ?
   ";
 
-  return fetch_all_query($db, $sql,array($user_id));
+  return fetch_all_query($db, $sql,array($user_id, $order_id));
 }
 
 
