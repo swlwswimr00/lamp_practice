@@ -69,6 +69,19 @@ function get_user_orders($db, $user_id){
   return fetch_all_query($db, $sql,array($user_id));
 }
 
+function get_created_orders($db,$order_id){
+  $sql = "
+  SELECT
+    created
+  FROM
+    orders
+  WHERE
+    order_id = ?
+";
+
+return fetch_all_query($db, $sql,array($order_id));
+}
+
 function get_user_order_details($db, $user_id,$order_id){
   $sql = "
     SELECT

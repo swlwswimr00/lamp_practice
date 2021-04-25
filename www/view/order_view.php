@@ -34,7 +34,6 @@
       </tr>
       <?php }?>
     </table>
-      <!-- <p class="text-right">合計金額: <?php h(print number_format($total_price)); ?>円</p> -->
     <?php } else { ?>
       <p>購入履歴はありません。</p>
     <?php } ?> 

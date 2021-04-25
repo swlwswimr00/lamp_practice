@@ -18,4 +18,7 @@ $order_id = get_get('order_id');
 
 $order_details = get_user_order_details($db, $user['user_id'],$order_id);
 
+$created = get_created_orders($db,$order_id);
+$total_price = sum_order_details($order_details);
+
 include_once '../view/order_details_view.php';
