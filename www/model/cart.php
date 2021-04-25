@@ -111,15 +111,12 @@ function purchase_carts($db, $carts, $user_id){
         $db, 
         $cart['item_id'], 
         $cart['stock'] - $cart['amount']
-      ) === false || 
-      regist_orders(
-        $db,
-        $user_id,
-        $cart
-      ) === false) {
+      ) === false){
       set_error($cart['name'] . 'の購入に失敗しました。');
     }
   }
+
+  regist_orders($db, $user_id, $carts);
   
   delete_user_carts($db, $carts[0]['user_id']);
 }

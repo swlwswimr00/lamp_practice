@@ -2,12 +2,14 @@
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
-function regist_orders($db,$user_id,$cart){
+function regist_orders($db,$user_id,$carts){
   $db -> beginTransaction();
   try{
     insert_orders($db,$user_id);
     $order_id = get_order_id($db);
-    insert_order_details($db,$order_id['last_insert_id()'] ,$cart['item_id'] ,$cart['price'], $cart['amount']);
+    foreach($carts as $cart){
+      insert_order_details($db,$order_id['last_insert_id()'] ,$cart['item_id'] ,$cart['price'], $cart['amount']);
+     }
     $db -> commit();
   }catch(PDOException $e){
     $db -> rollback();
