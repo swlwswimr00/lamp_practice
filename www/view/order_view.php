@@ -3,7 +3,7 @@
 <head>
   <?php include VIEW_PATH . 'templates/head.php'; ?>
   <title>購入履歴</title>
-  <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'admin.css'); ?>">
+  <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'order.css'); ?>">
 </head>
 <body>
   <?php include VIEW_PATH . 'templates/header_logined.php'; ?>
@@ -15,6 +15,9 @@
     <?php if(count($orders) > 0){ ?>
     <table>
       <tr>
+        <?php if(is_admin($user)){ ?>
+        <th>ユーザーID</th>
+        <?php }?>
         <th>注文番号</th>
         <th>購入日時</th>
         <th>合計金額</th>
@@ -22,6 +25,9 @@
       </tr>
       <?php foreach($orders as $order){?>
       <tr>
+        <?php if(is_admin($user)){ ?>
+        <td><?php echo h($order['user_id']); ?></td>
+        <?php }?>
         <td><?php echo h($order['order_id']); ?></td>
         <td><?php echo h($order['created']); ?></td>
         <td><?php ?>円</td>

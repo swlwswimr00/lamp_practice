@@ -3,28 +3,31 @@
 <head>
   <?php include VIEW_PATH . 'templates/head.php'; ?>
   <title>購入明細</title>
-  <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'admin.css'); ?>">
+  <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'order.css'); ?>">
 </head>
 <body>
   <?php include VIEW_PATH . 'templates/header_logined.php'; ?>
-  <h1>購入明細</h1>
-  <table>
-    <tr>
-      <th>注文番号</th>
-      <th>購入日時</th>
-      <th>合計</th>
-    </tr>
-    <tr>
-      <td><?php echo h($order_id); ?></td>
-      <td><?php echo h($created[0]['created']); ?></td>
-      <td><?php echo h($total_price); ?>円</td>
-    </tr>
-  </table>
+    <h1>購入明細</h1>
+
 
   <div class="container">
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
 
     <?php if(count($order_details) > 0){ ?>
+
+      <table>
+      <tr>
+        <th>注文番号</th>
+        <th>購入日時</th>
+        <th>合計</th>
+      </tr>
+      <tr>
+        <td><?php echo h($order_id); ?></td>
+        <td><?php echo h($created[0]['created']); ?></td>
+        <td><?php echo h($total_price); ?>円</td>
+      </tr>
+    </table>
+
     <table>
       <tr>
         <th>商品名</th>

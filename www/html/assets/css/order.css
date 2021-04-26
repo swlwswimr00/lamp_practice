@@ -1,0 +1,22 @@
+table tr {
+  border: solid 1px black;
+}
+
+table{
+  margin-bottom: 50px;
+}
+
+td,th{
+  border-right: solid 1px black;
+  padding: 0 50px;
+  text-align:center
+}
+
+.flex{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.no-border{
+  border: none;
+}

@@ -101,7 +101,7 @@ function delete_cart($db, $cart_id){
   return execute_query($db, $sql, $params = array($cart_id));
 }
 
-function purchase_carts($db, $carts){
+function purchase_carts($db, $carts, $user_id){
   if(validate_cart_purchase($carts) === false){
     return false;
   }
@@ -114,6 +114,7 @@ function purchase_carts($db, $carts){
       set_error($cart['name'] . 'の購入に失敗しました。');
     }
   }
+  regist_orders($db,$user_id,$carts);
   
   delete_user_carts($db, $carts[0]['user_id']);
 }

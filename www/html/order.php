@@ -15,6 +15,10 @@ if(is_logined() === false){
 $db = get_db_connect();
 $user = get_login_user($db);
 
-$orders = get_user_orders($db, $user['user_id']);
+if(is_admin($user)){
+  $orders = get_all_orders($db, $sql);
+}else{
+  $orders = get_user_orders($db, $user['user_id']);
+}
 
 include_once '../view/order_view.php';
