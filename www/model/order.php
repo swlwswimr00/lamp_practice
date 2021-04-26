@@ -6,7 +6,9 @@ function regist_orders($db,$user_id,$carts){
   $db -> beginTransaction();
   try{
     insert_orders($db,$user_id);
-    $order_id = get_order_id($db);
+
+    $order_id = $db->lastInsertId('order_id');
+
     foreach($carts as $cart){
       insert_order_details($db,$order_id['last_insert_id()'] ,$cart['item_id'] ,$cart['price'], $cart['amount']);
      }
@@ -29,16 +31,6 @@ function insert_orders($db, $user_id){
   return execute_query($db, $sql, array($user_id));
 }
 
-function get_order_id($db){
-  $sql = "
-    SELECT
-    last_insert_id()
-    FROM
-    orders;
-  ";
-
-  return fetch_query($db, $sql);
-}
 
 function insert_order_details($db,$order_id ,$item_id ,$price, $quantity){
   $sql = "
@@ -55,16 +47,72 @@ function insert_order_details($db,$order_id ,$item_id ,$price, $quantity){
   return execute_query($db, $sql, array($order_id, $item_id, $price, $quantity));
 }
 
-function get_user_order_details($db, $user_id){
+
+function get_user_orders($db, $user_id){
+  $sql = "
+  SELECT
+  orders.order_id,
+  orders.created,
+  SUM(order_details.price * order_details.quantity) AS total
+  FROM
+  orders
+  JOIN
+  order_details
+  ON
+  orders.order_id = order_details.order_id
+  WHERE
+  orders.user_id = ?
+  GROUP BY
+  orders.order_id
+  ";
+
+  return fetch_all_query($db, $sql, array($user_id));
+}
+
+function get_all_orders($db){
   $sql = "
     SELECT
-      orders.order_id,
-      orders.user_id,
+    orders.user_id,
+    orders.order_id,
+    orders.created,
+    SUM(order_details.price * order_details.quantity) AS total
+    FROM
+    orders
+    JOIN
+    order_details
+    ON
+    orders.order_id = order_details.order_id
+    GROUP BY
+    orders.order_id
+  ";
+
+  return fetch_all_query($db, $sql);
+}
+
+function get_created_orders($db,$order_id){
+  $sql = "
+  SELECT
+    created
+  FROM
+    orders
+  WHERE
+    order_id = ?
+";
+
+return fetch_all_query($db, $sql,array($order_id));
+}
+
+function get_user_order_details($db, $user_id,$order_id){
+  $sql = "
+    SELECT
+
       orders.created,
       order_details.item_id,
       order_details.price,
       order_details.quantity,
-      items.item_name
+
+      items.name
+
     FROM
       orders
     JOIN
@@ -76,11 +124,15 @@ function get_user_order_details($db, $user_id){
     ON
       order_details.item_id = items.item_id
     WHERE
-      orders.user_id = ?
+
+      orders.user_id = ? AND
+      orders.order_id = ?
   ";
 
-  return fetch_all_query($db, $sql,array($user_id));
+  return fetch_all_query($db, $sql,array($user_id, $order_id));
 }
+
+
 
 function get_all_order_details($db, $user_id){
   $sql = "
@@ -91,7 +143,9 @@ function get_all_order_details($db, $user_id){
       order_details.item_id,
       order_details.price,
       order_details.quantity,
-      items.item_name
+
+      items.name
+
     FROM
       orders
     JOIN
@@ -102,9 +156,29 @@ function get_all_order_details($db, $user_id){
       items
     ON
       order_details.item_id = items.item_id
+
+    WHERE
+      orders.user_id = ?
   ";
 
-  return fetch_all_query($db, $sql);
+  return fetch_all_query($db, $sql,array($user_id));
+}
+
+function sum_order_details($order_details){
+  $total_price = 0;
+  foreach($order_details as $order_detail){
+    $total_price += $order_detail['price'] * $order_detail['quantity'];
+  }
+  return $total_price;
+}
+
+function sum_order_price($db, $user_id,$order_id){
+  $order_details = get_user_order_details($db, $user_id,$order_id);
+  $total_price = 0;
+  foreach($order_details as $order_detail){
+    $total_price += $order_detail['price'] * $order_detail['quantity'];
+  }
+  return $total_price;
 }
 
 
