@@ -30,10 +30,11 @@
         <?php }?>
         <td><?php echo h($order['order_id']); ?></td>
         <td><?php echo h($order['created']); ?></td>
-        <td><?php ?>円</td>
+        <td><?php echo h($order['total']);?>円</td>
         <td>
           <form action = <?php print(ORDER_DETAILS_URL);?> method = "get">
             <input type="hidden" name = "order_id"  value = <?php echo h($order['order_id']); ?>> 
+            <input type="hidden" name = "user_id"  value = <?php echo h($order['user_id']); ?>> 
             <input type="submit" value = "購入明細へ">
           </form>
         </td>

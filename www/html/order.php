@@ -16,7 +16,7 @@ $db = get_db_connect();
 $user = get_login_user($db);
 
 if(is_admin($user)){
-  $orders = get_all_orders($db, $sql);
+  $orders = get_all_orders($db);
 }else{
   $orders = get_user_orders($db, $user['user_id']);
 }

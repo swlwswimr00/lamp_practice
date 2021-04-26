@@ -16,7 +16,13 @@ $db = get_db_connect();
 $user = get_login_user($db);
 $order_id = get_get('order_id');
 
-$order_details = get_user_order_details($db, $user['user_id'],$order_id);
+if(is_admin($user)){
+  $user_id = get_get('user_id');
+}else{
+  $user_id = $user['user_id'];
+}
+
+$order_details = get_user_order_details($db, $user_id, $order_id);
 
 $created = get_created_orders($db,$order_id);
 $total_price = sum_order_details($order_details);
