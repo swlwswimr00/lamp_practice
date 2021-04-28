@@ -6,9 +6,7 @@ function regist_orders($db,$user_id,$carts){
   $db -> beginTransaction();
   try{
     insert_orders($db,$user_id);
-
     $order_id = $db->lastInsertId('order_id');
-
     foreach($carts as $cart){
       insert_order_details($db,$order_id['last_insert_id()'] ,$cart['item_id'] ,$cart['price'], $cart['amount']);
      }
@@ -31,7 +29,6 @@ function insert_orders($db, $user_id){
   return execute_query($db, $sql, array($user_id));
 }
 
-
 function insert_order_details($db,$order_id ,$item_id ,$price, $quantity){
   $sql = "
     INSERT INTO
@@ -46,7 +43,6 @@ function insert_order_details($db,$order_id ,$item_id ,$price, $quantity){
 
   return execute_query($db, $sql, array($order_id, $item_id, $price, $quantity));
 }
-
 
 function get_user_orders($db, $user_id){
   $sql = "
@@ -105,14 +101,11 @@ return fetch_all_query($db, $sql,array($order_id));
 function get_user_order_details($db, $user_id,$order_id){
   $sql = "
     SELECT
-
       orders.created,
       order_details.item_id,
       order_details.price,
       order_details.quantity,
-
       items.name
-
     FROM
       orders
     JOIN
@@ -124,14 +117,12 @@ function get_user_order_details($db, $user_id,$order_id){
     ON
       order_details.item_id = items.item_id
     WHERE
-
       orders.user_id = ? AND
       orders.order_id = ?
   ";
 
   return fetch_all_query($db, $sql,array($user_id, $order_id));
 }
-
 
 
 function get_all_order_details($db, $user_id){
@@ -143,9 +134,7 @@ function get_all_order_details($db, $user_id){
       order_details.item_id,
       order_details.price,
       order_details.quantity,
-
       items.name
-
     FROM
       orders
     JOIN
@@ -156,7 +145,6 @@ function get_all_order_details($db, $user_id){
       items
     ON
       order_details.item_id = items.item_id
-
     WHERE
       orders.user_id = ?
   ";
@@ -180,6 +168,5 @@ function sum_order_price($db, $user_id,$order_id){
   }
   return $total_price;
 }
-
 
 ?>
