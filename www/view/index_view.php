@@ -19,9 +19,9 @@
       <div>
         <form method= "get" name = "order">
           <select name="sorting">
-            <option value="created" <?php if($sorting === 'created'){print 'checked';}?>>新着順</option>
-            <option value="cheap" <?php if($sorting === 'cheap'){print 'checked';}?>>価格の安い順</option>
-            <option value="expensive" <?php if($sorting === 'expensive'){print 'checked';}?>>価格の高い順</option>
+            <option value="created">新着順</option>
+            <option value="cheap">価格の安い順</option>
+            <option value="expensive">価格の高い順</option>
           </select>
           <input type="submit" value = "並べ替え">
         </form>
