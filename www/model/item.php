@@ -23,11 +23,13 @@ function get_item($db, $item_id){
 }
 
 function change_items_order($sorting){
-  $order = 'new';
   if($sorting === 'cheap' || $sorting === 'expensive'){
-      $order = 'price';
+    $sql = '
+      ORDER BY
+      price
+    ';
   }
-  return $order;
+  return $sql;
 }
 
 function is_desc($sorting){
@@ -37,7 +39,7 @@ function is_desc($sorting){
   return false;
 }
 
-function get_items($db, $is_open = false){
+function get_items($db,$sorting, $is_open = false){
   $sql = '
     SELECT
       item_id, 
@@ -49,32 +51,29 @@ function get_items($db, $is_open = false){
     FROM
       items
   ';
+
   if($is_open === true){
-    $sorting = get_get('sorting');
-    $order = change_items_order($sorting);
     $sql .= '
     WHERE 
       status = 1
-    ORDER BY
-      ?
     ';
+    $sql .= change_items_order($sorting);
     if(is_desc($sorting) === true){
       $sql .= '
       DESC
       ';
     }
-    return fetch_all_query($db, $sql, array($order));
   }
 
   return fetch_all_query($db, $sql);
 }
 
-function get_all_items($db){
-  return get_items($db);
+function get_all_items($db, $sorting){
+  return get_items($db, $sorting);
 }
 
-function get_open_items($db){
-  return get_items($db, true);
+function get_open_items($db, $sorting){
+  return get_items($db, $sorting, true);
 }
 
 function regist_item($db, $name, $price, $stock, $status, $image){
