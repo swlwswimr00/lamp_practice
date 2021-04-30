@@ -27,7 +27,6 @@ function change_items_order($sorting){
   if($sorting === 'cheap' || $sorting === 'expensive'){
       $order = 'price';
   }
-  echo $order;
   return $order;
 }
 
