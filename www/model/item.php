@@ -22,6 +22,22 @@ function get_item($db, $item_id){
   return fetch_query($db, $sql, $params = array($item_id));
 }
 
+function change_items_order($sorting){
+  $order = 'new';
+  if($sorting === 'cheap' || $sorting === 'expensive'){
+      $order = 'price';
+  }
+  echo $order;
+  return $order;
+}
+
+function is_desc($sorting){
+  if($sorting === 'expensive'){
+    return true;
+  }
+  return false;
+}
+
 function get_items($db, $is_open = false){
   $sql = '
     SELECT
@@ -35,9 +51,20 @@ function get_items($db, $is_open = false){
       items
   ';
   if($is_open === true){
+    $sorting = get_get('sorting');
+    $order = change_items_order($sorting);
     $sql .= '
-      WHERE status = 1
+    WHERE 
+      status = 1
+    ORDER BY
+      ?
     ';
+    if(is_desc($sorting) === true){
+      $sql .= '
+      DESC
+      ';
+    }
+    return fetch_all_query($db, $sql, array($order));
   }
 
   return fetch_all_query($db, $sql);

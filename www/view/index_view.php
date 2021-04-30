@@ -19,7 +19,7 @@
       <div>
         <form method= "get">
           <select name="sorting">
-            <option value="new-regist" checked>新着順</option>
+            <option value="new" checked>新着順</option>
             <option value="cheap">価格の安い順</option>
             <option value="expensive">価格の高い順</option>
           </select>
