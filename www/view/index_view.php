@@ -11,8 +11,22 @@
   
 
   <div class="container">
-    <h1>商品一覧</h1>
-    <?php include VIEW_PATH . 'templates/messages.php'; ?>
+    <div class="flex space-between">
+      <div>
+        <h1>商品一覧</h1>
+        <?php include VIEW_PATH . 'templates/messages.php'; ?>
+      </div>
+      <div>
+        <form method= "get" name = "order">
+          <select name="sorting">
+            <option value="created">新着順</option>
+            <option value="cheap">価格の安い順</option>
+            <option value="expensive">価格の高い順</option>
+          </select>
+          <input type="submit" value = "並べ替え">
+        </form>
+      </div>
+    </div>
 
     <div class="card-deck">
       <div class="row">
@@ -44,6 +58,6 @@
       </div>
     </div>
   </div>
-  
+  <script src = 'basic.js'></script>
 </body>
 </html>

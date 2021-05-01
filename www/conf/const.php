@@ -23,6 +23,7 @@ define('ORDER_URL', '/order.php');
 define('ORDER_DETAILS_URL', '/order_details.php');
 define('FINISH_URL', '/finish.php');
 define('ADMIN_URL', '/admin.php');
+define('JS_URL', 'basic.js');
 
 define('REGEXP_ALPHANUMERIC', '/\A[0-9a-zA-Z]+\z/');
 define('REGEXP_POSITIVE_INTEGER', '/\A([1-9][0-9]*|0)\z/');
